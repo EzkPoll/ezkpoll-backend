@@ -9,10 +9,6 @@ async function bootstrap() {
     .setTitle('EZKPOLL API')
     .setDescription('EZKPOLL API')
     .setVersion('1.0')
-    .addServer(`http://localhost:${CONFIG.PORT}/`, 'Local environment')
-    .addServer('https://', 'Staging')
-    .addServer('https://', 'Production')
-    .addTag('Your API Tag')
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
