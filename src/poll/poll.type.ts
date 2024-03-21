@@ -87,3 +87,33 @@ export interface PollOptionItem {
   odesc: string;
   oimg: string;
 }
+
+//
+export class PollItemResponse {
+  @ApiProperty()
+  id!: number;
+  @ApiProperty()
+  name!: string;
+  @ApiProperty()
+  description!: string;
+  @ApiProperty()
+  address!: string;
+  @ApiProperty()
+  blockNumber: string;
+  @ApiProperty({
+    type: PollCreateMetadata,
+  })
+  metadata: PollCreateMetadata;
+  @ApiProperty()
+  createdAt!: Date;
+  @ApiProperty()
+  updatedAt!: Date;
+}
+
+export class GetPollsResponse {
+  @ApiProperty({
+    type: PollItemResponse,
+    isArray: true,
+  })
+  list: PollItemResponse[];
+}
