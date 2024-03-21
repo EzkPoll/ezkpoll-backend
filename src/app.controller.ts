@@ -4,11 +4,16 @@ import {
   Controller,
   Get,
   Post,
+  Query,
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { PrismaService } from './prisma.service';
 import { PollService } from './poll/poll.service';
-import { GetPollsResponse, PollCreateDto } from './poll/poll.type';
+import {
+  GetPollDetail,
+  GetPollsResponse,
+  PollCreateDto,
+} from './poll/poll.type';
 
 @ApiTags('Home')
 @Controller('')
@@ -43,10 +48,10 @@ export class HomeController {
     status: 200,
     description: 'Get poll detail',
   })
-  async pollDetail(id: number) {
+  async pollDetail(@Query() dto: GetPollDetail) {
     return await this.prisma.pollInfo.findUnique({
       where: {
-        id,
+        id: dto.id,
       },
       include: {
         questions: {
