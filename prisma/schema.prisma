@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["relationJoins"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model SyncState {
+  id                    Int    @id @default(autoincrement())
+  lastSyncedBlockNumber String // uint256
+}
+
+model PollInfo {
+  id          Int            @id @default(autoincrement())
+  name        String
+  description String
+  address     String
+  blockNumber String // uint256
+  metadata    Json // { startTime, endTime, estimatedTime }
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  questions   PollQuestion[]
+}
+
+model PollQuestion {
+  id         Int          @id @default(autoincrement())
+  qname      String
+  qdesc      String
+  // questionList Json // [ { qid. type, name, desc, options: ['', ''] } ]
+  PollInfo   PollInfo?    @relation(fields: [pollInfoId], references: [id])
+  pollInfoId Int?
+  options    PollOption[]
+  createdAt  DateTime     @default(now())
+}
+
+model PollOption {
+  id             Int           @id @default(autoincrement())
+  oname          String
+  odesc          String
+  oimg           String
+  PollQuestion   PollQuestion? @relation(fields: [pollQuestionId], references: [id])
+  pollQuestionId Int?
+
+  results   PollResults[]
+  createdAt DateTime      @default(now())
+}
+
+model PollResults {
+  id           Int         @id @default(autoincrement())
+  userId       String
+  isVoted      Boolean     @default(true)
+  PollOption   PollOption? @relation(fields: [pollOptionId], references: [id])
+  pollOptionId Int?
+  createdAt    DateTime    @default(now())
+}
