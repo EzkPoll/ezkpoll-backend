@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsNumberString } from 'class-validator';
 
 export class PollCreateMetadata {
   @ApiProperty()
@@ -121,6 +121,6 @@ export class GetPollsResponse {
 export class GetPollDetail {
   @ApiProperty()
   @IsNotEmpty()
-  @IsNumber()
-  id: number;
+  @IsNumberString()
+  id: string;
 }

@@ -49,9 +49,11 @@ export class HomeController {
     description: 'Get poll detail',
   })
   async pollDetail(@Query() dto: GetPollDetail) {
+    const idNumber = parseInt(dto.id);
+    if (isNaN(idNumber)) throw new BadRequestException('Invalid id');
     return await this.prisma.pollInfo.findUnique({
       where: {
-        id: dto.id,
+        id: idNumber,
       },
       include: {
         questions: {
