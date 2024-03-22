@@ -13,6 +13,10 @@ import {
   GetPollDetail,
   GetPollsResponse,
   PollCreateDto,
+  PollPublishDto,
+  PollResult,
+  PollResultRequest,
+  PollSignUpDto,
 } from './poll/poll.type';
 
 @ApiTags('Home')
@@ -76,5 +80,37 @@ export class HomeController {
       console.error(error);
       throw new BadRequestException(error.message);
     }
+  }
+
+  @Post('sign-up')
+  async signUp(@Body() dto: PollSignUpDto) {
+    return {
+      pollId: dto.pollId,
+      ...dto,
+      success: true,
+    };
+  }
+
+  @Post('poll')
+  async poll(@Body() dto: PollPublishDto) {
+    return {
+      pollId: dto.pollId,
+      ...dto,
+      success: true,
+    };
+  }
+
+  @Get('result')
+  @ApiResponse({
+    status: 200,
+    description: 'Get poll result',
+    type: PollResult,
+  })
+  async pollResult(@Query() dto: PollResultRequest): Promise<PollResult> {
+    return {
+      pollId: parseInt(dto.pollId),
+      pollAddress: '0x123',
+      result: [2, 2, 3],
+    };
   }
 }

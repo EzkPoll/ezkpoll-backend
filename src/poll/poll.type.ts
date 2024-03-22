@@ -127,3 +127,51 @@ export class GetPollDetail {
   @IsNumberString()
   id: string;
 }
+
+export class PollSignUpDto {
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsNumber()
+  pollId: number;
+  @ApiProperty()
+  @IsNotEmpty()
+  address: string;
+  @ApiProperty()
+  @IsNotEmpty()
+  maciPubKey: string;
+}
+
+export class PollPublishDto {
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsNumber()
+  pollId: number;
+  @ApiProperty()
+  @IsNotEmpty()
+  maciPubKey: string;
+  @ApiProperty()
+  @IsNotEmpty()
+  maciSK: string;
+  @ApiProperty()
+  @IsNotEmpty()
+  optionIndex: number;
+}
+
+export class PollResultRequest {
+  @ApiProperty()
+  pollId: string;
+}
+
+export class PollResult {
+  @ApiProperty()
+  pollId: number;
+
+  @ApiProperty()
+  pollAddress: string;
+
+  @ApiProperty({
+    isArray: true,
+    type: Number,
+  })
+  result: number[];
+}
