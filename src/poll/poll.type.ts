@@ -10,6 +10,9 @@ export class PollCreateMetadata {
   endTime: number;
   @ApiPropertyOptional()
   estimatedTime?: number;
+
+  @ApiPropertyOptional()
+  isAb?: boolean;
 }
 
 export class PollOptionItemDto {

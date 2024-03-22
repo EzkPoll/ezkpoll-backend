@@ -29,6 +29,7 @@ export class PollService implements OnApplicationBootstrap {
           startTime: newPoll.metadata.startTime || 0,
           endTime: newPoll.metadata.endTime || 0,
           estimatedTime: newPoll.metadata.estimatedTime || 0,
+          isAb: newPoll.metadata.isAb || false,
         },
       },
     });
