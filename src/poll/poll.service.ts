@@ -1,9 +1,20 @@
-import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  OnApplicationBootstrap,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import {
   PollCreateDto,
   PollCreateItem,
+  PollIsPolledRequest,
+  PollIsPolledResponse,
+  PollPublishDto,
   PollQuestionCreateItem,
+  PollResult,
+  PollResultItem,
+  PollResultRequest,
+  PollSignUpDto,
 } from './poll.type';
 
 @Injectable()
@@ -113,4 +124,151 @@ export class PollService implements OnApplicationBootstrap {
   }
 
   addQuestion(item: PollQuestionCreateItem) {}
+
+  async isPolled(dto: PollIsPolledRequest): Promise<PollIsPolledResponse> {
+    const { maciPubKey, pollId } = dto;
+    const [isSignUp, poll] = await Promise.all([
+      this.prismaService.pollSignUp.findFirst({
+        where: {
+          maciPubKey,
+        },
+      }),
+      this.prismaService.pollVote.findUnique({
+        where: {
+          pollId,
+          maciPubKey,
+        },
+      }),
+    ]);
+
+    return {
+      isSignUp: !!isSignUp,
+      maciPubKey,
+      optionIndex: poll?.optionIndex || null,
+    };
+  }
+
+  async signUp(dto: PollSignUpDto) {
+    const isSignUp = await this.prismaService.pollSignUp.findFirst({
+      select: {
+        id: true,
+      },
+      where: {
+        maciPubKey: dto.maciPubKey,
+      },
+    });
+
+    if (isSignUp) {
+      throw new BadRequestException('Already signed up');
+    }
+
+    const pollExist = await this.prismaService.pollInfo.findFirst({
+      select: {
+        id: true,
+      },
+      where: {
+        id: dto.pollId,
+      },
+    });
+
+    if (!pollExist) {
+      throw new BadRequestException(`PollId=${dto.pollId} not exist`);
+    }
+
+    return this.prismaService.pollSignUp.create({
+      data: {
+        ...dto,
+      },
+    });
+  }
+
+  async poll(dto: PollPublishDto) {
+    if (dto.optionIndex < 0)
+      throw new BadRequestException('Invalid optionIndex');
+    const isSignUp = await this.prismaService.pollSignUp.findFirst({
+      select: {
+        id: true,
+      },
+      where: {
+        pollId: dto.pollId,
+        maciPubKey: dto.maciPubKey,
+      },
+    });
+
+    if (!isSignUp) {
+      throw new BadRequestException('Not signed up');
+    }
+
+    await this.prismaService.pollVote.upsert({
+      where: {
+        pollId: dto.pollId,
+        maciPubKey: dto.maciPubKey,
+      },
+      update: {
+        optionIndex: dto.optionIndex,
+      },
+      create: {
+        maciPubKey: dto.maciPubKey,
+        pollId: dto.pollId,
+        maciSK: dto.maciSK,
+        optionIndex: dto.optionIndex,
+      },
+    });
+
+    return this.prismaService.pollVote.create({
+      data: {
+        ...dto,
+      },
+    });
+  }
+
+  async pollResult(dto: PollResultRequest): Promise<PollResult> {
+    const pollId = parseInt(dto.pollId);
+    if (isNaN(pollId)) {
+      throw new BadRequestException('Invalid pollId');
+    }
+
+    const pollQuestions = await this.prismaService.pollQuestion.findMany({
+      where: {
+        pollInfoId: parseInt(dto.pollId),
+      },
+    });
+
+    if (!pollQuestions || !pollQuestions[0]) {
+      throw new BadRequestException(`PollId=${dto.pollId} has no question`);
+    }
+    const q1 = pollQuestions[0];
+
+    const options = await this.prismaService.pollOption.findMany({
+      where: {
+        pollQuestionId: q1.id,
+      },
+    });
+
+    const pollVotes = await this.prismaService.pollVote.findMany({
+      where: {
+        pollId,
+      },
+    });
+
+    const pollResults = options.map((option, index) => {
+      const count = pollVotes.filter((vote) => vote.optionIndex === index);
+      const r: PollResultItem = {
+        oid: option.id,
+        oname: option.oname,
+        odesc: option.odesc,
+        oimg: option.oimg,
+        count: count.length,
+      };
+      return r;
+    });
+
+    const result: PollResult = {
+      pollId,
+      pollAddress: '',
+      result: pollResults,
+    };
+
+    return result;
+  }
 }

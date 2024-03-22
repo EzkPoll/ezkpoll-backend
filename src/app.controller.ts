@@ -91,29 +91,17 @@ export class HomeController {
     type: PollIsPolledResponse,
   })
   async isPolled(@Query() dto: PollIsPolledRequest) {
-    return {
-      isSignUp: false,
-      maciPubKey: dto.maciPubKey,
-      optionIndex: null,
-    };
+    return await this.pollService.isPolled(dto);
   }
 
   @Post('sign-up')
   async signUp(@Body() dto: PollSignUpDto) {
-    return {
-      pollId: dto.pollId,
-      ...dto,
-      success: true,
-    };
+    return await this.pollService.signUp(dto);
   }
 
   @Post('poll')
   async poll(@Body() dto: PollPublishDto) {
-    return {
-      pollId: dto.pollId,
-      ...dto,
-      success: true,
-    };
+    return await this.pollService.poll(dto);
   }
 
   @Get('result')
@@ -123,25 +111,6 @@ export class HomeController {
     type: PollResult,
   })
   async pollResult(@Query() dto: PollResultRequest): Promise<PollResult> {
-    return {
-      pollId: parseInt(dto.pollId),
-      pollAddress: '0x123',
-      result: [
-        {
-          oid: 1,
-          oname: 'Option 1',
-          odesc: 'Option 1 description',
-          oimg: 'https://example.com/image.png',
-          count: 10,
-        },
-        {
-          oid: 2,
-          oname: 'Option 2',
-          odesc: 'Option 2 description',
-          oimg: 'https://example.com/image.png',
-          count: 20,
-        },
-      ],
-    };
+    return await this.pollService.pollResult(dto);
   }
 }

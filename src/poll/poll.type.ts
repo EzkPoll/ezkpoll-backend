@@ -154,6 +154,7 @@ export class PollPublishDto {
   maciSK: string;
   @ApiProperty()
   @IsNotEmpty()
+  @IsNumber()
   optionIndex: number;
 }
 
@@ -191,7 +192,12 @@ export class PollResult {
 
 export class PollIsPolledRequest {
   @ApiProperty()
+  @IsNotEmpty()
   maciPubKey: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  pollId: number;
 }
 export class PollIsPolledResponse {
   @ApiProperty()
