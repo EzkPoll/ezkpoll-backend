@@ -157,6 +157,19 @@ export class PollPublishDto {
   optionIndex: number;
 }
 
+export class PollResultItem {
+  @ApiProperty()
+  oid: number;
+  @ApiProperty()
+  oname: string;
+  @ApiProperty()
+  odesc: string;
+  @ApiProperty()
+  oimg: string;
+  @ApiProperty()
+  count: number;
+}
+
 export class PollResultRequest {
   @ApiProperty()
   pollId: string;
@@ -171,7 +184,7 @@ export class PollResult {
 
   @ApiProperty({
     isArray: true,
-    type: Number,
+    type: PollResultItem,
   })
-  result: number[];
+  result: PollResultItem[];
 }

@@ -110,7 +110,29 @@ export class HomeController {
     return {
       pollId: parseInt(dto.pollId),
       pollAddress: '0x123',
-      result: [2, 2, 3],
+      result: [
+        {
+          oid: 1,
+          oname: 'Option 1',
+          odesc: 'Option 1 description',
+          oimg: 'https://example.com/image.png',
+          count: 10,
+        },
+        {
+          oid: 2,
+          oname: 'Option 2',
+          odesc: 'Option 2 description',
+          oimg: 'https://example.com/image.png',
+          count: 20,
+        },
+        {
+          oid: 3,
+          oname: 'Option 3',
+          odesc: 'Option 3 description',
+          oimg: 'https://example.com/image.png',
+          count: 30,
+        },
+      ],
     };
   }
 }
