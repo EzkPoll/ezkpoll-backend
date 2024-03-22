@@ -191,7 +191,7 @@ export class PollResult {
 
 export class PollIsPolledRequest {
   @ApiProperty()
-  maciPubKey: number;
+  maciPubKey: string;
 }
 export class PollIsPolledResponse {
   @ApiProperty()
