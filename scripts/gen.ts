@@ -3,9 +3,7 @@ import { SNARK_FIELD_SIZE } from 'maci-crypto';
 import { Keypair, PrivKey } from 'maci-domainobjs';
 
 async function main() {
-  const wallet = new Wallet(
-    '67521890c17b7681a54e8fa74297b9eed910c66e18a68207b99547eee4ee88c8',
-  );
+  const wallet = new Wallet('');
   const signature = await wallet.signMessage('hello');
   const hashedSig = keccak256(signature);
   console.log({
