@@ -6,6 +6,9 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ScheduleModule } from '@nestjs/schedule';
 import { HomeController } from './app.controller';
 import { PollService } from './poll/poll.service';
+import { MaciController } from './maci/maci.controller';
+import { MaciService } from './maci/maci.service';
+import { LoggerService } from './service/logger.service';
 @Module({
   imports: [
     ScheduleModule.forRoot(),
@@ -15,15 +18,17 @@ import { PollService } from './poll/poll.service';
       max: 100000,
     }),
   ],
-  controllers: [HomeController],
+  controllers: [HomeController, MaciController],
   providers: [
+    LoggerService,
     AppService,
     PrismaService,
     PollService,
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: CacheInterceptor,
-    },
+    MaciService,
+    // {
+    //   provide: APP_INTERCEPTOR,
+    //   useClass: CacheInterceptor,
+    // },
   ],
 })
 export class AppModule {}

@@ -1,0 +1,20 @@
+{
+    "optimism-sepolia": {
+        "VkRegistry": "0xb7989F7114091c9a1E79337d109A150f290D4c5E",
+        "InitialVoiceCreditProxy": "0xB9938813d1504a2198864974439508d601411835",
+        "SignUpGatekeeper": "0xb87F5883B0F609bE646ead8234872ba3e54c6704",
+        "Verifier": "0x4B315cbe6695ce0610d0E4F6a19c0fE9E3Def530",
+        "MACI": "0x31B74431502e5C10e56C7cBFD14b82e6A63934e2",
+        "StateAq": "0xc3d681691c61F6b2107f57c6b1c4539Bb53Bc186",
+        "PollFactory": "0x9Ba1bfD285918628019ceE53F55Fcd153e9ae6D6",
+        "TopupCredit": "0x2D41eDcD994b9B1d7dE16A954f1AD6D47068faf4",
+        "PoseidonT3": "0xBB2ac506498ECD694dC6279086431E4432fe2AAe",
+        "PoseidonT4": "0x8F22147C03e7229F8734EBC67522a56C3c857062",
+        "PoseidonT5": "0x620f98C6019021215df57BaF5d31dDfe96BC6FBA",
+        "PoseidonT6": "0x4C6ce972c0546e701643FBDFd694F56B1E475763",
+        "Verifying keys sets": "0xd4148baffc58def0d3f985a7989731c62436f817dedefd0542230120a53feb94",
+        "MessageProcessor-0": "0x3d7aeFa5c6A033c3a940eF5d80a90a24ee714a48",
+        "Tally-0": "0x30aB844b54334d7cb0a9880e4C9D90A9Db3615aA",
+        "Poll-0": "0x4aEe6484Ca9af4DEDc540dEA74A2eBb9cedeBba2"
+    }
+}
