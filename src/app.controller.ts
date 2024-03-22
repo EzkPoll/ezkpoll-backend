@@ -13,6 +13,7 @@ import {
   GetPollDetail,
   GetPollsResponse,
   PollCreateDto,
+  PollIsPolledRequest,
   PollPublishDto,
   PollResult,
   PollResultRequest,
@@ -82,6 +83,15 @@ export class HomeController {
     }
   }
 
+  @Get('is-polled')
+  async isPolled(@Query() dto: PollIsPolledRequest) {
+    return {
+      isSignUp: false,
+      maciPubKey: dto.maciPubKey,
+      optionIndex: null,
+    };
+  }
+
   @Post('sign-up')
   async signUp(@Body() dto: PollSignUpDto) {
     return {
@@ -124,13 +134,6 @@ export class HomeController {
           odesc: 'Option 2 description',
           oimg: 'https://example.com/image.png',
           count: 20,
-        },
-        {
-          oid: 3,
-          oname: 'Option 3',
-          odesc: 'Option 3 description',
-          oimg: 'https://example.com/image.png',
-          count: 30,
         },
       ],
     };

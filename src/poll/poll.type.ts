@@ -188,3 +188,8 @@ export class PollResult {
   })
   result: PollResultItem[];
 }
+
+export class PollIsPolledRequest {
+  @ApiProperty()
+  maciPubKey: number;
+}
