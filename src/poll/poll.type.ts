@@ -193,3 +193,11 @@ export class PollIsPolledRequest {
   @ApiProperty()
   maciPubKey: number;
 }
+export class PollIsPolledResponse {
+  @ApiProperty()
+  isSignUp: boolean;
+  @ApiProperty()
+  maciPubKey: string;
+  @ApiProperty()
+  optionIndex: number | undefined | null;
+}

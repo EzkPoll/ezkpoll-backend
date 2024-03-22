@@ -14,6 +14,7 @@ import {
   GetPollsResponse,
   PollCreateDto,
   PollIsPolledRequest,
+  PollIsPolledResponse,
   PollPublishDto,
   PollResult,
   PollResultRequest,
@@ -84,6 +85,11 @@ export class HomeController {
   }
 
   @Get('is-polled')
+  @ApiResponse({
+    status: 200,
+    description: 'Check if user is polled',
+    type: PollIsPolledResponse,
+  })
   async isPolled(@Query() dto: PollIsPolledRequest) {
     return {
       isSignUp: false,
