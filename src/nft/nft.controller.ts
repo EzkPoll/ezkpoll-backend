@@ -9,8 +9,8 @@ export class OraRequest {
   prompt: string;
 }
 
-@ApiTags('maci')
-@Controller('maci')
+@ApiTags('ora')
+@Controller('ora')
 export class NftController {
   provider: Provider;
   wallet: Wallet;
