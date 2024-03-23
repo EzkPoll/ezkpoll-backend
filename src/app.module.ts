@@ -9,6 +9,7 @@ import { PollService } from './poll/poll.service';
 import { MaciController } from './maci/maci.controller';
 import { MaciService } from './maci/maci.service';
 import { LoggerService } from './service/logger.service';
+import { NftController } from './nft/nft.controller';
 @Module({
   imports: [
     ScheduleModule.forRoot(),
@@ -18,7 +19,7 @@ import { LoggerService } from './service/logger.service';
       max: 100000,
     }),
   ],
-  controllers: [HomeController, MaciController],
+  controllers: [HomeController, MaciController, NftController],
   providers: [
     LoggerService,
     AppService,
