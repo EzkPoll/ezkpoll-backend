@@ -183,6 +183,8 @@ export class PollService implements OnApplicationBootstrap {
   }
 
   async poll(dto: PollPublishDto) {
+    const maciPubKey = dto.maciPubKey.toLowerCase();
+    const maciSK = dto.maciSK.toLowerCase();
     if (dto.optionIndex < 0)
       throw new BadRequestException('Invalid optionIndex');
     const isSignUp = await this.prismaService.pollSignUp.findFirst({
@@ -191,7 +193,7 @@ export class PollService implements OnApplicationBootstrap {
       },
       where: {
         pollId: dto.pollId,
-        maciPubKey: dto.maciPubKey,
+        maciPubKey: maciPubKey,
       },
     });
 
@@ -202,15 +204,16 @@ export class PollService implements OnApplicationBootstrap {
     await this.prismaService.pollVote.upsert({
       where: {
         pollId: dto.pollId,
-        maciPubKey: dto.maciPubKey,
+        maciPubKey: maciPubKey,
       },
       update: {
         optionIndex: dto.optionIndex,
+        maciSK: maciSK,
       },
       create: {
-        maciPubKey: dto.maciPubKey,
+        maciPubKey: maciPubKey,
         pollId: dto.pollId,
-        maciSK: dto.maciSK,
+        maciSK: maciSK,
         optionIndex: dto.optionIndex,
       },
     });
