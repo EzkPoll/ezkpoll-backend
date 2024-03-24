@@ -201,22 +201,32 @@ export class PollService implements OnApplicationBootstrap {
       throw new BadRequestException('Not signed up');
     }
 
-    await this.prismaService.pollVote.upsert({
+    const voteExist = await this.prismaService.pollVote.findFirst({
       where: {
         pollId: dto.pollId,
         maciPubKey: maciPubKey,
       },
-      update: {
-        optionIndex: dto.optionIndex,
-        maciSK: maciSK,
-      },
-      create: {
-        maciPubKey: maciPubKey,
-        pollId: dto.pollId,
-        maciSK: maciSK,
-        optionIndex: dto.optionIndex,
-      },
     });
+    if (voteExist) {
+      this.prismaService.pollVote.update({
+        where: {
+          id: voteExist.id,
+        },
+        data: {
+          optionIndex: dto.optionIndex,
+          maciSK: maciSK,
+        },
+      });
+    } else {
+      await this.prismaService.pollVote.create({
+        data: {
+          maciPubKey: maciPubKey,
+          pollId: dto.pollId,
+          maciSK: maciSK,
+          optionIndex: dto.optionIndex,
+        },
+      });
+    }
 
     return this.prismaService.pollVote.create({
       data: {
