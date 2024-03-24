@@ -10,8 +10,13 @@ import { MaciController } from './maci/maci.controller';
 import { MaciService } from './maci/maci.service';
 import { LoggerService } from './service/logger.service';
 import { NftController } from './nft/nft.controller';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     ScheduleModule.forRoot(),
     CacheModule.register({
       isGlobal: true,
