@@ -43,7 +43,11 @@ export class HomeController {
     type: GetPollsResponse,
   })
   async polls() {
-    const list = await this.prisma.pollInfo.findMany();
+    const list = await this.prisma.pollInfo.findMany({
+      orderBy: {
+        id: 'desc',
+      },
+    });
     return {
       list,
     };
