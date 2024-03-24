@@ -81,7 +81,7 @@ model PollSignUp {
 
 model PollVote {
   id          Int      @id @default(autoincrement())
-  maciPubKey  String   @unique
+  maciPubKey  String
   maciSK      String
   pollId      Int
   optionIndex Int
